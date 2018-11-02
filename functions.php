@@ -1,5 +1,11 @@
 <?php 
 
+function redirect_to ($new_location)
+{
+	header("Location: " . $new_location);
+	exit();
+}
+
 function has_presence ($value)
 {
 	return isset($value) && $value !== "";
@@ -15,6 +21,7 @@ function has_min_length ($value, $min)
 	return strlen($value) >= $min;
 }
 
+
 function validate_with_max_length ($fields_with_max_length)
 	{
 		global $errors;
@@ -27,7 +34,7 @@ function validate_with_max_length ($fields_with_max_length)
 		}
 	}
 
-function form_error ($errors = array())
+function form_errors ($errors = array())
 {
 	$output = "";
 	if(!empty($errors)) {
@@ -40,4 +47,5 @@ function form_error ($errors = array())
 		$output .= "</ul>";
 		$output .= "</div>";
 	}
+	return $output;
 }
