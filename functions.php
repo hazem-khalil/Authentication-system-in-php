@@ -1,9 +1,11 @@
 <?php 
 
+
+
 function redirect_to ($new_location)
 {
 	header("Location: " . $new_location);
-	exit();
+	exit;
 }
 
 function has_presence ($value)
@@ -48,4 +50,24 @@ function form_errors ($errors = array())
 		$output .= "</div>";
 	}
 	return $output;
+}
+
+function password_encrypt ($password)
+{
+	$hash_format = "$2y$11$";
+	$salt_length = 22;
+	$salt = generate_salt($salt_length);
+	$format_and_salt = $hash_format . $salt;
+	$hash = crypt($password, $format_and_salt);
+	return $hash;
+}
+
+
+function generate_salt ($length)
+{
+	$unique_random_string = md5(uniqid(mt_rand(), true));
+	$base64_string = base64_encode($unique_random_string);
+	$modefied_base64_string = str_replace('+', '.', $base64_string);
+	$salt = substr($modefied_base64_string, 0, $length);
+	return $salt;
 }

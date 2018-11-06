@@ -26,7 +26,7 @@ if(isset($_POST['submit'])) {
 	}
 
 	// max length
-	$fields_with_max_lengths = array("username" => 5, "email" => 4, "password" => 8);
+	$fields_with_max_lengths = array("username" => 30, "email" => 25, "password" => 61);
 	foreach($fields_with_max_lengths as $field => $max) {
 		$value = $_POST[$field];
 		if(!has_max_length($value, $max)) {
@@ -34,6 +34,16 @@ if(isset($_POST['submit'])) {
 			$errors[$key] = ucfirst($field) . " is too long";
 		}
 	}
+
+	$hashed_password = password_encrypt($password);
+
+	$sql = "INSERT INTO tasks.users (username, email, password) VALUES (:username, :email, :hashed_password)"; 
+	$query = $handler->prepare($sql);
+	$query->execute(array(
+		':username' => $username,
+		':email' => $email,
+		':hashed_password' => $hashed_password
+	));
 
 }
 
