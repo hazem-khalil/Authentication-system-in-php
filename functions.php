@@ -1,5 +1,6 @@
-<?php 
 
+<?php session_start(); ?>
+<?php 
 
 
 function redirect_to ($new_location)
@@ -70,4 +71,16 @@ function generate_salt ($length)
 	$modefied_base64_string = str_replace('+', '.', $base64_string);
 	$salt = substr($modefied_base64_string, 0, $length);
 	return $salt;
+}
+
+function flash_message ()
+{
+	if (isset($_SESSION['message'])){
+		$output = htmlentities($_SESSION['message']);
+
+		// Clear sessions
+		// $_SESSION['message'] = NULL;
+
+		return $output;
+	}
 }

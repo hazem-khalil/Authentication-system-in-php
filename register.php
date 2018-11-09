@@ -45,6 +45,9 @@ if(isset($_POST['submit'])) {
 			':email' => $email,
 			':hashed_password' => $hashed_password
 		));
+		$_SESSION['message'] = $username;
+		redirect_to('index.php');
+
 	}
 
 }
@@ -70,7 +73,7 @@ if(isset($_POST['submit'])) {
 		</p>
 
 		<p>Email:
-			<input type="text" name="email" vssalue="">
+			<input type="text" name="email" value="">
 		</p>
 
 		<p>Password:
