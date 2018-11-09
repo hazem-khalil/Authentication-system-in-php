@@ -35,15 +35,17 @@ if(isset($_POST['submit'])) {
 		}
 	}
 
-	$hashed_password = password_encrypt($password);
+	if (empty($errors)) {
+		$hashed_password = password_encrypt($password);
 
-	$sql = "INSERT INTO tasks.users (username, email, password) VALUES (:username, :email, :hashed_password)"; 
-	$query = $handler->prepare($sql);
-	$query->execute(array(
-		':username' => $username,
-		':email' => $email,
-		':hashed_password' => $hashed_password
-	));
+		$sql = "INSERT INTO tasks.users (username, email, password) VALUES (:username, :email, :hashed_password)"; 
+		$query = $handler->prepare($sql);
+		$query->execute(array(
+			':username' => $username,
+			':email' => $email,
+			':hashed_password' => $hashed_password
+		));
+	}
 
 }
 
