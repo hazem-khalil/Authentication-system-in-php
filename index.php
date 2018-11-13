@@ -7,15 +7,21 @@
 </head>
 <body>
 
-
 	<?php 
 
-		$welcome_message = "welcome, " . flash_message();
-		echo $welcome_message;
+		if (!isset($_SESSION['logged_in'])) {
+			redirect_to('login.php');
+		}
 
 
 	?>
-	<br >
-	<h1>There is our project for you</h1> 
+
+
+	<?php 
+		$welcome_message = flash_message();
+		echo $welcome_message;
+	?>
+	<h1>There is our project for you</h1>
+
 </body>
 </html>

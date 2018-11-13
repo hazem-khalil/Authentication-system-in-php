@@ -1,12 +1,35 @@
+<?php
 
-<?php session_start(); ?>
-<?php 
-
+session_start();
 
 function redirect_to ($new_location)
 {
 	header("Location: " . $new_location);
 	exit;
+}
+
+function flash_message ()
+{
+	if (isset($_SESSION['logged_in'])){
+		$welcome = "welcome, ";
+		$output = $welcome . ', ' . htmlentities($_SESSION['logged_in']);
+
+		// Clear sessions
+		$_SESSION['logged_in'] = null;
+		$welcome = null;
+		return $output;
+	}
+}
+
+function session_errors ()
+{
+	if (isset($_SESSION['errors'])) {
+		$errors = $_SESSION['errors'];
+
+		// Clear session
+		$_SESSION["errors"] = null;
+		return $errors;
+	}
 }
 
 function has_presence ($value)
@@ -26,16 +49,16 @@ function has_min_length ($value, $min)
 
 
 function validate_with_max_length ($fields_with_max_length)
-	{
-		global $errors;
+{
+	global $errors;
 
-		foreach ($fields as $field => $max) {
-			$value = trim($_POST['$field']);
-			if (!has_max_length($value, $max)) {
-				$errors[$fields] = ucfirst($field) . "is to long";
-			}
+	foreach ($fields as $field => $max) {
+		$value = trim($_POST['$field']);
+		if (!has_max_length($value, $max)) {
+			$errors[$fields] = ucfirst($field) . "is to long";
 		}
 	}
+}
 
 function form_errors ($errors = array())
 {
@@ -51,6 +74,24 @@ function form_errors ($errors = array())
 		$output .= "</div>";
 	}
 	return $output;
+}
+
+function find_user_by_email ($email)
+{
+	require_once('db_connection.php');
+	global $handler;
+
+	$sql = "SELECT * FROM users WHERE email = :email LIMIT 1";
+	$query = $handler->prepare($sql);
+	$result = $query->execute(array(
+		':email' => $email
+	));	
+
+	if($user = $query->fetch(PDO::FETCH_ASSOC != null)) {
+		return $user;
+	} else {
+		return null;
+	}
 }
 
 function password_encrypt ($password)
@@ -73,14 +114,26 @@ function generate_salt ($length)
 	return $salt;
 }
 
-function flash_message ()
+function password_check($password, $existing_hash) {
+	// existing hash contains format and salt at start
+  $hash = crypt($password, $existing_hash);
+  if ($hash === $existing_hash) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function attempt_login ($email, $password)
 {
-	if (isset($_SESSION['message'])){
-		$output = htmlentities($_SESSION['message']);
-
-		// Clear sessions
-		// $_SESSION['message'] = NULL;
-
-		return $output;
+	$user = find_user_by_email($email);
+	if($user) {
+		if(password_check($password, $user['password'])) {
+			return $user;
+		} else {
+			return false;
+		}
+	} else {
+		return false;
 	}
 }
