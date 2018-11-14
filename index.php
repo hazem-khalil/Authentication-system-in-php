@@ -7,21 +7,19 @@
 </head>
 <body>
 
-	<?php 
+	<?php confirm_logged_in(); ?>
 
-		if (!isset($_SESSION['logged_in'])) {
-			redirect_to('login.php');
-		}
-
-
-	?>
-
-
-	<?php 
+	<center> <?php echo $_SESSION['username']; ?> </center>
+	<?php
 		$welcome_message = flash_message();
 		echo $welcome_message;
-	?>
-	<h1>There is our project for you</h1>
+	?>		
+		<h1>There is our project for you</h1>
+		<br>
+		
+		<h3>
+			You can logout from here <a href="logout.php">Logout</a> 
+		</h3>
 
 </body>
 </html>

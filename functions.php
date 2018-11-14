@@ -10,12 +10,12 @@ function redirect_to ($new_location)
 
 function flash_message ()
 {
-	if (isset($_SESSION['logged_in'])){
+	if (isset($_SESSION['message'])){
 		$welcome = "welcome, ";
-		$output = $welcome . ', ' . htmlentities($_SESSION['logged_in']);
+		$output = $welcome . htmlentities($_SESSION['message']);
 
 		// Clear sessions
-		$_SESSION['logged_in'] = null;
+		$_SESSION['message'] = null;
 		$welcome = null;
 		return $output;
 	}
@@ -135,5 +135,17 @@ function attempt_login ($email, $password)
 		}
 	} else {
 		return false;
+	}
+}
+
+function logged_in ()
+{
+	return isset($_SESSION['user_id']);
+}
+
+function confirm_logged_in ()
+{
+	if (!logged_in()) {
+		redirect_to('login.php');
 	}
 }

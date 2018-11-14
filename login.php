@@ -24,7 +24,13 @@ if (isset($_POST['submit'])) {
 	if (empty($errors)) {
 		$found_user = attempt_login($email, $password);
 		if ($found_user) {
+			// may be found a refactoring here!!
 			$_SESSION["logged_in"] = $found_user["username"];
+			$_SESSION["message"] = $found_user["username"];
+			$_SESSION["user_id"] = $found_user["id"];
+			$_SESSION["username"] = $found_user["username"];
+
+
 	    	redirect_to("index.php");
 		} else {
 			$_SESSION['errors'] = "Email/Password is incorrect.";
@@ -64,5 +70,8 @@ if (isset($_POST['submit'])) {
 
 		<input type="submit" name="submit" value="Login">
 	</form>
+<h4>
+	Create your account from <a href="register.php"> here </a>
+</h4>
 </body>
 </html>
