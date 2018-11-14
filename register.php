@@ -46,15 +46,12 @@ if(isset($_POST['submit'])) {
 			':hashed_password' => $hashed_password
 		));
 		$_SESSION['message'] = $username;
+		$_SESSION['username'] = $username;
+		$_SESSION['user_id'] = "SELECT * FROM users WHERE username = htmlentities($username)";
 		redirect_to('index.php');
 
 	}
-
 }
-
-
-
-
 ?>
 
 <!DOCTYPE html>
