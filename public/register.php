@@ -1,5 +1,5 @@
-<?php require_once("db_connection.php"); ?>
-<?php require_once("functions.php"); ?>
+<?php require_once("../includes/db_connection.php"); ?>
+<?php require_once("../includes/functions.php"); ?>
 
 
 <?php 
@@ -63,7 +63,7 @@ if(isset($_POST['submit'])) {
 
 	<?php echo form_errors($errors); ?>
 
-	<form method="POST" action="/tasks/register.php">
+	<form method="POST" action="/tasks/public/register.php">
 
 		<p>Username:
 			<input type="text" name="username" value="">

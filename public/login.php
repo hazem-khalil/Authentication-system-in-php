@@ -1,5 +1,5 @@
-<?php require_once('db_connection.php'); ?>
-<?php require_once('functions.php'); ?>
+<?php require_once('../includes/db_connection.php'); ?>
+<?php require_once('../includes/functions.php'); ?>
 
 <?php  
 $errors = array();
@@ -59,7 +59,7 @@ if (isset($_POST['submit'])) {
 		echo session_errors();
 		echo form_errors($errors);
 	?>
-	<form method="POST" action="/tasks/login.php">
+	<form method="POST" action="/tasks/public/login.php">
 		<p>Email:
 			<input type="text" name="email" value="">
 		</p>
